@@ -52,10 +52,6 @@ split_fasta() {
     ' "${input_file}"
 }
 
-
-
-
-
 # Execute split_fasta function
 split_fasta
 
