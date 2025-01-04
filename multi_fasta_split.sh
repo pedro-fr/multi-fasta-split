@@ -38,21 +38,23 @@ mkdir -p "${output_dir}"
 # Function to split MultiFasta file
 split_fasta() {
     awk -v output_dir="${output_dir}" -v prefix="${prefix}" '
-    BEGIN {
-        if (prefix == "") {
-            prefix = "";
-        }
-    }
     /^>/ {
         seq_id = substr($0, 2);  # Remove the '>' character
-        gsub(/[^a-zA-Z0-9_-]/, "_", seq_id);  # Replace invalid characters with '_'
-        file = sprintf("%s/%s%s.fa", output_dir, prefix, seq_id);
+        if (prefix == "") {
+            file = sprintf("%s/%s.fa", output_dir, seq_id);
+        } else {
+            file = sprintf("%s/%s%s.fa", output_dir, prefix, seq_id);
+        }
         print $0 > file;
         next;
     }
     { print >> file; }
     ' "${input_file}"
 }
+
+
+
+
 
 # Execute split_fasta function
 split_fasta
