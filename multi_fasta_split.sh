@@ -2,10 +2,10 @@
 
 # Usage function to display help for the script
 usage() {
-    echo "Usage: $0 -i <input_file> -o <output_dir> -p <prefix>"
+    echo "Usage: $0 -i <input_file> -o <output_dir> [-p <prefix>]"
     echo "  -i  Input MultiFasta file"
     echo "  -o  Output directory for individual fasta files"
-    echo "  -p  Prefix for output file names"
+    echo "  -p  Prefix for output file names (optional)"
     exit 1
 }
 
@@ -28,7 +28,7 @@ while getopts ":i:o:p:" opt; do
 done
 
 # Check if required arguments are provided
-if [ -z "${input_file}" ] || [ -z "${output_dir}" ] || [ -z "${prefix}" ]; then
+if [ -z "${input_file}" ] || [ -z "${output_dir}" ]; then
     usage
 fi
 
@@ -37,10 +37,16 @@ mkdir -p "${output_dir}"
 
 # Function to split MultiFasta file
 split_fasta() {
-    awk -v output_dir="${output_dir}" '
+    awk -v output_dir="${output_dir}" -v prefix="${prefix}" '
+    BEGIN {
+        if (prefix == "") {
+            prefix = "";
+        }
+    }
     /^>/ {
         seq_id = substr($0, 2);  # Remove the '>' character
-        file = sprintf("%s/%s.fa", output_dir, seq_id);
+        gsub(/[^a-zA-Z0-9_-]/, "_", seq_id);  # Replace invalid characters with '_'
+        file = sprintf("%s/%s%s.fa", output_dir, prefix, seq_id);
         print $0 > file;
         next;
     }
