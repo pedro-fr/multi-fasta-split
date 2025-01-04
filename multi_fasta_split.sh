@@ -37,14 +37,11 @@ mkdir -p "${output_dir}"
 
 # Function to split MultiFasta file
 split_fasta() {
-    awk -v prefix="${prefix}" -v output_dir="${output_dir}" '
-    BEGIN {n_seq=0;}
+    awk -v output_dir="${output_dir}" '
     /^>/ {
-        if(n_seq%1000==0) {
-            file=sprintf("%s/%s_chunk_%d.fa", output_dir, prefix, n_seq/1000);
-        }
-        print >> file;
-        n_seq++;
+        seq_id = substr($0, 2);  # Remove the '>' character
+        file = sprintf("%s/%s.fa", output_dir, seq_id);
+        print $0 > file;
         next;
     }
     { print >> file; }
