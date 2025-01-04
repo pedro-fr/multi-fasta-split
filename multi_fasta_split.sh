@@ -46,6 +46,7 @@ split_fasta() {
             file = sprintf("%s/%s%s.fa", output_dir, prefix, seq_id);
         }
         print $0 > file;
+        close(file);
         next;
     }
     { print >> file; }
