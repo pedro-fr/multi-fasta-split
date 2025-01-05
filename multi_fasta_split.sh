@@ -39,20 +39,20 @@ mkdir -p "${output_dir}"
 split_fasta() {
     awk -v output_dir="${output_dir}" '
     BEGIN {
-        # print "Output directory:", output_dir;  # Print output_dir for debugging
+        # Debug the output directory if needed
+        # print "Output directory:", output_dir;
     }
     /^>/ {
-        seq_id = substr($0, 2);  # Remove the '>' character
+        seq_id = substr($0, 2);         # Remove the '>' character
         gsub(/[^a-zA-Z0-9_-]/, "_", seq_id);  # Replace invalid characters with '_'
-        print "Processing sequence ID:", seq_id;  # Print seq_id for debugging
+        print "Processing sequence ID:", seq_id;  # Debug print
         file = sprintf("%s/%s.fa", output_dir, seq_id);  # Construct the file path
-        print "Output file:", file;  # Print file path for debugging
-        print $0 >> file;
-        next;
+        print "Output file:", file;   # Debug print
+        print $0 >> file;            # Print the header line to the file
+        next;                        # Proceed to the next line
     }
     {
-        print >> file;
-        print $0 >> file;
+        print $0 >> file;            # Append the sequence line to the current file
     }
     ' "${input_file}"
 }
