@@ -1,12 +1,11 @@
 # multi-fasta-split
-This repository contains Bash scripts to split a MultiFasta file into individual fasta files. It will also include a variant that can be run using SLURM for HPC environments.
+This repository contains a Bash script to split a MultiFasta file into individual fasta files. It also includes a variant that can be run using SLURM for HPC environments. Unlike other options currently available on GitHub, this script is 100% in Bash, making it more portable and more easily integrated within a HPC cluster framework. 
 
 ## Features
 
 - Splits a MultiFasta file into individual fasta files in a given directory.
-- Allows custom prefixes for output file names.
 - Enables proper argument handling for reproducibility purposes.
-- Will provide a SLURM-compatible script for batch processing.
+- Provides a SLURM-compatible script for batch processing.
 
 ### Local Execution
 
