@@ -38,22 +38,17 @@ mkdir -p "${output_dir}"
 # Function to split MultiFasta file
 split_fasta() {
     awk -v output_dir="${output_dir}" '
-    BEGIN {
-        # Debug the output directory if needed
-        # print "Output directory:", output_dir;
-    }
     /^>/ {
-        seq_id = substr($0, 2);         # Remove the '>' character
-        gsub(/[^a-zA-Z0-9_-]/, "_", seq_id);  # Replace invalid characters with '_'
-        print "Processing sequence ID:", seq_id;  # Debug print
-        file = sprintf("%s/%s.fa", output_dir, seq_id);  # Construct the file path
-        print "Output file:", file;   # Debug print
-        print $0 >> file;            # Print the header line to the file
-        next;                        # Proceed to the next line
+        seq_id = substr($0, 2);
+        if (index(seq_id, " ")) {
+            seq_id = substr(seq_id, 1, index(seq_id, " ") - 1);
+        }
+        gsub(/[^a-zA-Z0-9_-]/, "_", seq_id);
+        file = sprintf("%s/%s.fa", output_dir, seq_id);
+        print $0 > file;
+        next;
     }
-    {
-        print $0 >> file;            # Append the sequence line to the current file
-    }
+    { print >> file; }
     ' "${input_file}"
 }
 
