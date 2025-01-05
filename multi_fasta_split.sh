@@ -41,6 +41,7 @@ split_fasta() {
     /^>/ {
         seq_id = substr($0, 2);  # Remove the '>' character
         seq_id = $1;  # Extract the sequence ID before the first space
+        gsub(/[^a-zA-Z0-9_-]/, "_", seq_id);  # Replace invalid characters with '_'
         if (prefix == "") {
             file = sprintf("%s/%s.fa", output_dir, seq_id);
         } else {
