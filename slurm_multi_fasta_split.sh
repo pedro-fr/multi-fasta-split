@@ -2,10 +2,10 @@
 #SBATCH --job-name=multi_fasta_split
 #SBATCH --output=multi_fasta_split_%j.o
 #SBATCH --error=multi_fasta_split_%j.e
-#SBATCH --time=01:00:00
+#SBATCH --time=00:30:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
+#SBATCH --mem=256M
 
 # Define variables
 INPUT_FILE=$1
