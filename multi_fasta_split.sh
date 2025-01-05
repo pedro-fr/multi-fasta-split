@@ -41,10 +41,13 @@ split_fasta() {
     /^>/ {
         seq_id = substr($0, 2);
         if (index(seq_id, " ")) {
-            seq_id = substr(seq_id, 1, index(seq_id, " ") - 1);
+            # Extracts the sequence identifier up to the first space character.
+            # This is done by finding the index of the first space in the seq_id
+            # and then taking the substring from the start to just before the space.
+            seq_id = substr(seq_id, 1, index(seq_id, " ") - 1); 
         }
         gsub(/[^a-zA-Z0-9_-]/, "_", seq_id);
-        file = sprintf("%s/%s.fa", output_dir, seq_id);
+        file = sprintf("%s/%s.fasta", output_dir, seq_id);
         print $0 > file;
         next;
     }
