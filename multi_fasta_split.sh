@@ -44,9 +44,9 @@ split_fasta() {
     /^>/ {
         seq_id = substr($0, 2);  # Remove the '>' character
         gsub(/[^a-zA-Z0-9_-]/, "_", seq_id);  # Replace invalid characters with '_'
-        # print "Processing sequence ID:", seq_id;  # Print seq_id for debugging
+        print "Processing sequence ID:", seq_id;  # Print seq_id for debugging
         file = sprintf("%s/%s.fa", output_dir, seq_id);  # Construct the file path
-        # print "Output file:", file;  # Print file path for debugging
+        print "Output file:", file;  # Print file path for debugging
         print $0 >> file;
         next;
     }
