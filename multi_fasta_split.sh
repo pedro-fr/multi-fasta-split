@@ -40,7 +40,7 @@ split_fasta() {
     awk -v output_dir="${output_dir}" -v prefix="${prefix}" '
     /^>/ {
         seq_id = substr($0, 2);  # Remove the '>' character
-        seq_id = substr(seq_id, 1, index(seq_id, " ") - 1);  # Extract the sequence ID before the first space
+        seq_id = $1;  # Extract the sequence ID before the first space
         if (prefix == "") {
             file = sprintf("%s/%s.fa", output_dir, seq_id);
         } else {
